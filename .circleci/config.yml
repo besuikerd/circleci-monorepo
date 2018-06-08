@@ -40,6 +40,8 @@ jobs:
       - restore_cache:
           keys:
             - project1-{{ checksum "project1/build.sbt" }}
+      - attach_workspace:
+          at: project1
       - run:
           command: |
             pushd project1
