@@ -14,7 +14,9 @@ jobs:
       - restore_cache:
           keys:
             - project1-{{ checksum "project1/build.sbt" }}
-      - run: sbt-on-diff project1 compile
+      - run:
+          name: "Compile project1"
+          command: sbt-on-diff project1 compile
       - save_cache:
           when: on_success
           key: project1-{{ checksum "project1/build.sbt" }}
@@ -42,10 +44,8 @@ jobs:
       - attach_workspace:
           at: project1
       - run:
-          command: |
-            pushd project1
-            .circleci/bin/execute-on-diff project1 sbt test:compile test:test
-            popd
+          name: "Test project1"
+          command: sbt-on-diff project1 test:compile test:test
 
 
   compile_project2:
