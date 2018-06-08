@@ -6,4 +6,4 @@ command=${@:2}
 pushd $projectName
 mkdir -p target
 execute-on-diff $projectName sbt $command
-popdq
+popd
