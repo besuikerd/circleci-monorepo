@@ -19,6 +19,21 @@ jobs:
       - run: cd project1
       - run: sbt test:compile test:test
 
+  build_project2:
+      <<: *defaults
+      steps:
+        - checkout
+        - run: cd project2
+        - run: sbt compile
+
+    test_project2:
+      <<: *defaults
+      steps:
+        - checkout
+        - run: cd project2
+        - run: sbt test:compile test:test
+
+
 workflows:
   version: 2
   build_and_test_project1:
@@ -27,3 +42,7 @@ workflows:
       - test_project1:
           requires:
             - build_project1
+      - build_project2
+      - test_project2
+          requires:
+            - build_project2
