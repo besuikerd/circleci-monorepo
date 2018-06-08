@@ -4,12 +4,10 @@ defaults: &defaults
     - image: codestar/circleci-scala-sbt-git:scala-2.12.6-sbt-1.1.6
 
 sbtCompile: &sbtCompile
-  - checkout
   - run: sbt compile
 
-
-
-
+sbtTest: &sbtTest
+  - run: sbt test:compile test:test
 
 jobs:
   build_project1:
@@ -17,7 +15,7 @@ jobs:
     steps:
       - checkout
       - run: cd project1
-      - run: echo "compiling..."
+      <<: *sbtCompile
 
   test_project1:
     <<: *defaults
@@ -26,7 +24,7 @@ jobs:
     steps:
       - checkout
       - run: cd project1
-      - run: echo "testing..."
+      <<: *sbtTest
 
 
 workflows:
