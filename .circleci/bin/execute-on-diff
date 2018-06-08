@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+projectName=$1
+command=${@:2}
+
+branch=`git rev-parse --abbrev-ref HEAD`
+
+if [ "$branch" = "master" ]; then
+  echo "executing command because this is the master branch"
+  eval $command
+elif git diff --name-only origin/master...$branch | grep "^$projectName/" ; then
+  echo "executing command because there is a diff in $projectName"
+  eval $command
+else
+  echo "skipping command because there is no diff"
+fi
