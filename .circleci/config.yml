@@ -57,7 +57,7 @@ jobs:
             - project1-{{ checksum "project1/build.sbt" }}
       - run:
           name: "Compile project1"
-          command: sbt-on-diff (project1|shared) compile
+          command: sbt-on-diff project1 shared compile
       - save_cache:
           when: on_success
           key: project1-{{ checksum "project1/build.sbt" }}
