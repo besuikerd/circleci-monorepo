@@ -3,7 +3,7 @@
 projectName=$1
 command=${@:2}
 
-pushd projectName
+pushd $projectName
 mkdir target
 execute-on-diff $projectName sbt $command
 popd
