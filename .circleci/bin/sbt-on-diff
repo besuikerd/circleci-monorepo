@@ -5,5 +5,5 @@ command=${@:2}
 
 pushd projectName
 mkdir target
-execute-on-diff projectName sbt $command
+execute-on-diff $projectName sbt $command
 popd projectName
