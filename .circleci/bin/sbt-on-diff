@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+projectName = $1
+command=${@:2}
+
+pushd projectName
+mkdir target
+execute-on-diff projectName sbt $command
+popd projectName
