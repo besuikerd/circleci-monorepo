@@ -52,18 +52,41 @@ jobs:
       <<: *defaults
       steps:
         - checkout
+        - restore_cache:
+            keys:
+              - project2-{{ checksum "project2/build.sbt" }}
         - run:
-            command: |
-              echo "$PATH"
-              execute-on-diff project2
-        - run: echo compile
+            name: "Compile project2"
+            command: sbt-on-diff project2 compile
+        - save_cache:
+            when: on_success
+            key: project2-{{ checksum "project2/build.sbt" }}
+            paths:
+              - ./target/resolution-cache
+              - ./target/streams
+              - ./project/target/resolution-cache
+              - ./project/target/streams
+              - /root/.sbt
+              - /root/.ivy2/cache
+              - /root/.coursier-cache
+              - /root/.m2
+        - persist_to_workspace:
+            root: project2
+            paths:
+              - target
 
   test_project2:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: cd project2
-      - run: sbt test:compile test:test
+      <<: *defaults
+      steps:
+        - checkout
+        - restore_cache:
+            keys:
+              - project2-{{ checksum "project2/build.sbt" }}
+        - attach_workspace:
+            at: project2
+        - run:
+            name: "Test project2"
+            command: sbt-on-diff project2 test:compile test:test
 
 workflows:
   version: 2
