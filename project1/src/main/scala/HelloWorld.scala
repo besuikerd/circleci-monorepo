@@ -1,4 +1,4 @@
 case class HelloWorld(subject: String) {
-
-  def greet(): String = s"hello $subject!"
+  val wrapped = SharedHelloWorld(subject)
+  def greet(): String = wrapped.greet()
 }
