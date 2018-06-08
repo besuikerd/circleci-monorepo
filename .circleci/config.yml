@@ -4,13 +4,36 @@ defaults: &defaults
   docker:
     - image: codestar/circleci-scala-sbt-git:scala-2.12.6-sbt-1.1.6
 
+
 jobs:
-  build_project1:
+  compile_project1:
     <<: *defaults
     steps:
       - checkout
-      - run: cd project1
-      - run: sbt compile
+      - restore_cache:
+          keys:
+            - project1-{{ checksum "project1/build.sbt" }}
+      - run:
+          command: |
+            pushd project1
+            sbt compile
+            popd
+      - save_cache:
+          when: always
+          key: project1-{{ checksum "project1/build.sbt" }}
+          paths:
+            - ./target/resolution-cache
+            - ./target/streams
+            - ./project/target/resolution-cache
+            - ./project/target/streams
+            - /root/.sbt
+            - /root/.ivy2/cache
+            - /root/.coursier-cache
+            - /root/.m2
+      - persist_to_workspace:
+          root: project1
+          paths:
+            - target
 
   test_project1:
     <<: *defaults
@@ -19,7 +42,8 @@ jobs:
       - run: cd project1
       - run: sbt test:compile test:test
 
-  build_project2:
+
+  compile_project2:
       <<: *defaults
       steps:
         - checkout
@@ -37,11 +61,11 @@ workflows:
   version: 2
   build_and_test_project1:
     jobs:
-      - build_project1
+      - compile_project1
       - test_project1:
           requires:
-            - build_project1
-      - build_project2
+            - compile_project1
+      - compile_project2
       - test_project2:
           requires:
-            - build_project2
+            - compile_project2
