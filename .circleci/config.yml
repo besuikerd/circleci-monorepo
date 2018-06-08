@@ -14,12 +14,7 @@ jobs:
       - restore_cache:
           keys:
             - project1-{{ checksum "project1/build.sbt" }}
-      - run:
-          command: |
-            pushd project1
-            mkdir target
-            sbt-on-diff project1 compile
-            popd
+      - run: sbt-on-diff project1 compile
       - save_cache:
           when: on_success
           key: project1-{{ checksum "project1/build.sbt" }}
