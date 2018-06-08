@@ -17,6 +17,7 @@ jobs:
       - run:
           command: |
             pushd project1
+            mkdir target
             execute-on-diff project1 sbt compile
             popd
       - save_cache:
