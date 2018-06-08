@@ -34,7 +34,7 @@ jobs:
           paths:
             - target
 
-  compile_shared:
+  test_shared:
     <<: *defaults
     steps:
       - checkout
