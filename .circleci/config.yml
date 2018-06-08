@@ -3,8 +3,6 @@ version: 2
 defaults: &defaults
   docker:
     - image: codestar/circleci-scala-sbt-git:scala-2.12.6-sbt-1.1.6
-
-
 jobs:
   compile_project1:
     <<: *defaults
@@ -39,8 +37,14 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: cd project1
-      - run: sbt test:compile test:test
+      - restore_cache:
+          keys:
+            - project1-{{ checksum "project1/build.sbt" }}
+      - run:
+          command: |
+            pushd project1
+            sbt test:compile test:test
+            popd
 
 
   compile_project2:
