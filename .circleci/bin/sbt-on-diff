@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-projectName = $1
+projectName=$1
 command=${@:2}
 
 pushd projectName
