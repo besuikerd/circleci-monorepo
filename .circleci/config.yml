@@ -145,7 +145,7 @@ workflows:
           requires:
             - compile_project1
 
-      - compile_project2:
+      - compile_project2
       - test_project2:
           requires:
             - compile_project2
