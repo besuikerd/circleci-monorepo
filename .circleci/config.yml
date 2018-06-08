@@ -57,7 +57,7 @@ jobs:
             - project1-{{ checksum "project1/build.sbt" }}
       - run:
           name: "Compile project1"
-          command: sbt-on-diff project1 shared compile
+          command: sbt-on-diff "project1|shared" compile
       - save_cache:
           when: on_success
           key: project1-{{ checksum "project1/build.sbt" }}
@@ -98,7 +98,7 @@ jobs:
               - project2-{{ checksum "project2/build.sbt" }}
         - run:
             name: "Compile project2"
-            command: sbt-on-diff project2 compile
+            command: sbt-on-diff project2 "" compile
         - save_cache:
             when: on_success
             key: project2-{{ checksum "project2/build.sbt" }}
@@ -127,7 +127,7 @@ jobs:
             at: project2
         - run:
             name: "Test project2"
-            command: sbt-on-diff project2 test:compile test:test
+            command: sbt-on-diff project2 "" test:compile test:test
 
 workflows:
   version: 2

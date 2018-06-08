@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-projectName=$1
+projects=($1)
+projectName="$(cut -d '|' -f1 <<< $projects)"
 command=${@:2}
+
+if [ -z projectName ] ; then
+  echo "could not determine project name. make sure you enter a pipe delimited list of projects"
+  exit 1
+fi
 
 pushd $projectName
 mkdir -p target
-execute-on-diff $projectName sbt $command
+execute-on-diff "($projects)" sbt $command
 popd
