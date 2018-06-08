@@ -3,6 +3,13 @@ defaults: &defaults
   docker:
     - image: codestar/circleci-scala-sbt-git:scala-2.12.6-sbt-1.1.6
 
+sbtCompile: &sbtCompile
+  - checkout
+  - run: sbt compile
+
+
+
+
 
 jobs:
   build_project1:
@@ -20,6 +27,7 @@ jobs:
       - checkout
       - run: cd project1
       - run: echo "testing..."
+
 
 workflows:
   version: 2
