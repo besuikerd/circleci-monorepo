@@ -24,7 +24,6 @@ jobs:
       - run: echo "testing..."
 workflows:
   version: 2
-  build:
-    build_and_test_project1:
-      - build_project1
-      - test_project1
+  build_and_test_project1:
+    - build_project1
+    - test_project1
