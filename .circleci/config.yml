@@ -18,7 +18,7 @@ jobs:
           command: |
             pushd project1
             mkdir target
-            execute-on-diff project1 sbt compile
+            sbt-on-diff project1 compile
             popd
       - save_cache:
           when: on_success
@@ -78,6 +78,7 @@ workflows:
       - test_project1:
           requires:
             - compile_project1
+
       - compile_project2
       - test_project2:
           requires:
