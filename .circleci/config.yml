@@ -146,8 +146,6 @@ workflows:
             - compile_project1
 
       - compile_project2:
-          requires:
-            - test_shared
       - test_project2:
           requires:
             - compile_project2
